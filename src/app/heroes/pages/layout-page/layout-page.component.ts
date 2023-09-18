@@ -22,7 +22,7 @@ export class LayoutPageComponent {
 
 
     get user():User | undefined {
-        console.log(this.authService.currentUser);
+        // console.log('current-user:',this.authService.currentUser);
         return this.authService.currentUser;
     }
 }
