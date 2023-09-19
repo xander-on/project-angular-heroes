@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component }   from '@angular/core';
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { User } from 'src/app/auth/services/interfaces/user.interface';
+import { User }        from 'src/app/auth/interfaces/user.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-layout-page',
@@ -18,11 +19,17 @@ export class LayoutPageComponent {
 
     constructor(
         private authService:AuthService,
+        private router:Router
     ){}
 
 
     get user():User | undefined {
         // console.log('current-user:',this.authService.currentUser);
         return this.authService.currentUser;
+    }
+
+    onLogout(){
+        this.authService.logout();
+        this.router.navigate(['/auth/login']);
     }
 }
