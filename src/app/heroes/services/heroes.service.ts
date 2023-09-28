@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
 import { Hero, Publisher }         from '../interfaces/hero.interface';
 import { environments } from 'src/environments/environments';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Injectable({providedIn: 'root'})
 export class HeroesService {
@@ -13,7 +14,11 @@ export class HeroesService {
     private baseUrl = 'http://localhost:3000/heroes-api/v1';
 
 
-    constructor( private http:HttpClient ) { }
+    constructor(
+        private http:HttpClient,
+        private authService: AuthService
+    ) { }
+
 
     getHeroes():Observable<Hero[]>{
         return this.http.get<Hero[]>(`${this.baseUrl}/heroes`);
@@ -34,15 +39,20 @@ export class HeroesService {
 
 
     addHero( hero:Hero ):Observable<Hero> {
-        return this.http.post<Hero>(`${this.baseUrl}/heroes`, hero );
+
+        const sessionData = this.authService.currentSessionData;
+        const token = sessionData?.token;
+
+        if( !token ) throw new Error('no hay token...');
+
+        const headers = new HttpHeaders({
+            'Content-Type': 'application/json',
+            'x-token': token
+          });
+
+        return this.http.post<Hero>(`${this.baseUrl}/heroes`, hero, { headers } );
     }
 
-
-    // updateHero( hero:Hero ):Observable<Hero> {
-    //     if( !hero._id ) throw Error('Hero id is required');
-
-    //     return this.http.patch<Hero>(`${ this.baseUrl }/heroes/${hero._id}`, hero);
-    // }
 
     updateHero( hero:Hero ):Observable<Hero> {
         if( !hero._id ) throw Error('Hero id is required');

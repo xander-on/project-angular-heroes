@@ -3,6 +3,7 @@ import { User }         from '../interfaces/user.interface';
 import { environments } from 'src/environments/environments';
 import { Observable, catchError, map, of, tap }   from 'rxjs';
 import { HttpClient }   from '@angular/common/http';
+import { SessionData } from '../interfaces/sessionData.interface';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -11,21 +12,34 @@ export class AuthService {
     private baseUrl = 'http://localhost:3000/heroes-api/v1';
 
     private user?:User;
+    private sessionData?:SessionData | undefined;
+    private nameItemLS:string = 'SESSION_DATA'
 
-    constructor( private http:HttpClient ) { }
-
-    get currentUser():User | undefined {
-        return !this.user ? undefined : structuredClone(this.user)
+    constructor( private http:HttpClient ) {
+        this.sessionData = this.currentSessionData;
     }
 
 
-    // login( email:string, password:string ):Observable<User> {
-    //     return this.http.get<User>(`${ this.baseUrl }/users/1`)
-    //     .pipe(
-    //         tap( user => this.user = user ),
-    //         tap( user => localStorage.setItem('token', user.id.toString() ))
-    //     );
-    // }
+    get currentUser():User | undefined {
+        return !this.user
+            ? undefined
+            : structuredClone(this.user);
+    }
+
+
+    get currentSessionData():SessionData | undefined {
+        const sessionDataStr = localStorage.getItem(this.nameItemLS);
+        if (!sessionDataStr) return undefined;
+
+        this.sessionData = JSON.parse(sessionDataStr);
+
+        //todo x
+        console.log('sessionData:',this.sessionData)
+
+        return !this.sessionData ? undefined : structuredClone(this.sessionData);
+    }
+
+
 
     login( email:string, password:string ):Observable<{ user:User, token:string }> {
         const body = { email, password };
@@ -36,31 +50,20 @@ export class AuthService {
             tap(
                 response =>{
                     const {user, token} = response;
-
                     this.user = user;
 
-                    const userSession = {
-                        user:user.uid,
-                        token
-                    };
-
-                    localStorage.setItem('DATA_SESSION', JSON.stringify(userSession));
-
+                    this.sessionData = { userId:user.uid.toString(), token };
+                    localStorage.setItem(this.nameItemLS, JSON.stringify(this.sessionData));
                 }
             ),
         );
     }
 
 
-    checkAuthentication():Observable<boolean>{
-        let dataSession, userId, token;
-        const userSessionStr = localStorage.getItem('DATA_SESSION');
 
-        if (userSessionStr){
-            dataSession = JSON.parse(userSessionStr);
-            userId = dataSession.user;
-            token  = dataSession.token;
-        }
+    checkAuthentication():Observable<boolean>{
+
+        const userId = this.sessionData?.userId;
 
         return ( !userId )
             ? of( false )
@@ -73,6 +76,7 @@ export class AuthService {
 
     logout(){
         this.user = undefined;
+        this.sessionData = undefined;
         localStorage.clear();
     }
 }

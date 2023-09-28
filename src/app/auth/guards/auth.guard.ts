@@ -21,5 +21,4 @@ const checkAuthStatus = ():boolean | Observable<boolean> => {
 
 export const authCanActivate:CanActivateFn = () => checkAuthStatus();
 
-
 export const authCanMatch:CanMatchFn = () => checkAuthStatus();

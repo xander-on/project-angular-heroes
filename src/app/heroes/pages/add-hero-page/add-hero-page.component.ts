@@ -7,6 +7,7 @@ import { HeroesService }          from '../../services/heroes.service';
 import { MatSnackBar }            from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { AuthService } from 'src/app/auth/services/auth.service';
 
 @Component({
     selector: 'app-add-hero-page',
@@ -19,12 +20,12 @@ export class AddHeroPageComponent implements OnInit{
     public heroForm = new FormGroup({
         _id        : new FormControl<string>(''),
         superhero : new FormControl<string>('', { nonNullable:true }),
+        alter_ego       : new FormControl(''),
         publisher : new FormControl<Publisher>( {
             _id:  '',
             name: namePublisher.DCComics,
             state: true
         } ),
-        alter_ego       : new FormControl(''),
         first_appearance: new FormControl(''),
         characters      : new FormControl(''),
         alt_img         : new FormControl(''),
@@ -83,7 +84,6 @@ export class AddHeroPageComponent implements OnInit{
     onSubmit():void {
 
         if( this.heroForm.invalid ) return;
-
 
         this.service = ( this.currentHero._id )
             ? this.heroesService.updateHero( this.currentHero )

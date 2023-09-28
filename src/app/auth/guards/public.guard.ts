@@ -24,14 +24,7 @@ const checkAuthStatus = ():boolean | Observable<boolean> => {
 }
 
 
-export const publicCanActivate:CanActivateFn = (
-    // route:ActivatedRouteSnapshot,
-    // state:RouterStateSnapshot
-) =>{
-    // console.log('CanActivate');
-    // console.log({ route, state });
-    return checkAuthStatus();
-}
+export const publicCanActivate:CanActivateFn = () => checkAuthStatus();
 
 
 export const publicCanMatch:CanMatchFn = () => checkAuthStatus();

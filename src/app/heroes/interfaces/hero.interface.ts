@@ -27,8 +27,8 @@ export enum namePublisher {
 }
 
 export interface Publisher {
-    _id:  string;
-    name: namePublisher;
+    _id  :string;
+    name : namePublisher;
     state: boolean;
 }
 
