@@ -24,10 +24,22 @@
 
         <mat-card-content>
             <mat-list>
-                <mat-list-item>{{ hero.first_appearance }}</mat-list-item>
-                <mat-list-item>{{ hero.characters }}</mat-list-item>
-                <mat-list-item>{{ hero.publisher }}</mat-list-item>
-                <mat-list-item>{{ hero.alter_ego }}</mat-list-item>
+                <mat-list-item>
+                    <strong>First appearance: </strong>{{ hero.first_appearance }}
+                </mat-list-item>
+
+                <mat-list-item>
+                    <strong>Characters: </strong>{{ hero.characters }}
+                </mat-list-item>
+
+                <mat-list-item>
+                    <strong>Publisher: </strong>{{ hero.publisher.name }}
+                </mat-list-item>
+
+                <mat-list-item>
+                    <strong>Created By: </strong>{{ hero.created_by.name }}
+                </mat-list-item>
+
             </mat-list>
 
             <button
@@ -35,7 +47,7 @@
                 color="warn"
                 (click)="goBack()"
             >
-                Regresar
+                Go back
             </button>
         </mat-card-content>
     </mat-card>

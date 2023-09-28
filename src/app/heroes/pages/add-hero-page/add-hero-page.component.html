@@ -1,5 +1,4 @@
-<h1>{{ currentHero.id ? 'Editar' : 'Agregar' }} héroe</h1>
-
+<h1>{{ currentHero._id ? 'Edit' : 'Add' }} hero</h1>
 <mat-divider class="mb-2"></mat-divider>
 
 <div class="grid">
@@ -64,16 +63,16 @@
 
 
                     <mat-form-field class="col-12">
-                        <mat-label>Creador</mat-label>
+                        <mat-label>Publisher</mat-label>
                         <mat-select
                             required=""
                             formControlName="publisher"
                         >
                             <mat-option
                                 *ngFor="let publisher of publishers"
-                                [value]="publisher"
+                                [value] = "publisher._id"
                             >
-                                {{ publisher }}
+                                {{ publisher.name }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -90,7 +89,7 @@
 
                 <div class="flex justify-content-between">
                     <button
-                        *ngIf="currentHero.id"
+                        *ngIf="currentHero._id"
                         mat-flat-button
                         color="warn"
                         (click)="onDeleteHero()"

@@ -12,7 +12,9 @@ export class CardComponent implements OnInit{
     @Input()
     public hero!:Hero;
 
-    ngOnInit(): void {
+
+    ngOnInit():void {
+        console.log(this.hero)
         if( !this.hero ) throw new Error('Hero property is Required');
     }
 

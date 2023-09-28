@@ -11,6 +11,7 @@ import { Hero } from '../../interfaces/hero.interface';
 export class ListPageComponent implements OnInit{
 
     public heroes:Hero[] = [];
+    public cantidadHeroes:number = 0;
 
     constructor(
         private heroesService:HeroesService,
@@ -18,7 +19,11 @@ export class ListPageComponent implements OnInit{
 
     ngOnInit():void {
         this.heroesService.getHeroes().subscribe(
-            heroes => this.heroes = heroes
+            heroes => {
+                this.heroes = heroes;
+                this.cantidadHeroes = heroes.length
+                // console.log(heroes);
+            }
         );
     }
 

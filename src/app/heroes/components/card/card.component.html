@@ -11,8 +11,8 @@
     >
 
     <mat-card-content class="mt-2">
-        <h4>{{ hero.publisher }}</h4>
-        <p><strong>Primer aparicion: </strong>{{ hero.first_appearance }}</p>
+        <h4>{{ hero.publisher.name }}</h4>
+        <p><strong>First appearance: </strong>{{ hero.first_appearance }}</p>
         <br>
         <mat-chip-listbox>
             <mat-chip *ngFor="let name of hero.characters.split(',') | slice:0:3">
@@ -28,10 +28,10 @@
             mat-button
             mat-rised
             color="primary"
-            [routerLink]="['/heroes/edit', hero.id]"
+            [routerLink]="['/heroes/edit', hero._id]"
         >
             <mat-icon>edit</mat-icon>
-            Editar
+            Edit
         </button>
 
         <span class="spacer"></span>
@@ -40,10 +40,10 @@
             mat-button
             mat-rised
             color="primary"
-            [routerLink]="['/heroes', hero.id]"
+            [routerLink]="['/heroes', hero._id]"
         >
             <mat-icon>more_horiz</mat-icon>
-            Más
+            More
         </button>
 
     </mat-card-actions>

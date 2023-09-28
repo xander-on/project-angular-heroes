@@ -1,6 +1,6 @@
 import { Component, OnInit }      from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Hero, Publisher }        from '../../interfaces/hero.interface';
+import { Hero, Publisher, namePublisher }        from '../../interfaces/hero.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, filter, switchMap }  from 'rxjs';
 import { HeroesService }          from '../../services/heroes.service';
@@ -17,17 +17,22 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 export class AddHeroPageComponent implements OnInit{
 
     public heroForm = new FormGroup({
-        id        : new FormControl<string>(''),
+        _id        : new FormControl<string>(''),
         superhero : new FormControl<string>('', { nonNullable:true }),
-        publisher : new FormControl<Publisher>( Publisher.DCComics ),
-        alter_ego : new FormControl(''),
+        publisher : new FormControl<Publisher>( {
+            _id:  '',
+            name: namePublisher.DCComics,
+            state: true
+        } ),
+        alter_ego       : new FormControl(''),
         first_appearance: new FormControl(''),
-        characters: new FormControl(''),
-        alt_img   : new FormControl(''),
+        characters      : new FormControl(''),
+        alt_img         : new FormControl(''),
     });
 
 
-    public publishers:Publisher[] = Object.values(Publisher);
+    public publishers:Publisher[] = [];
+
     private service?:Observable<Hero>;
     private heroInicial?:Hero;
 
@@ -41,6 +46,13 @@ export class AddHeroPageComponent implements OnInit{
 
 
     ngOnInit():void {
+
+        this.heroesService.getPublishers().subscribe(
+            publishers => {
+                this.publishers = publishers
+            }
+        );
+
         if( !this.router.url.includes('edit') ) return;
 
         this.activatedRoute.params.pipe(
@@ -51,7 +63,7 @@ export class AddHeroPageComponent implements OnInit{
 
                 this.heroInicial = hero;
                 this.heroForm.reset( hero );
-                return
+                return;
             }
         );
 
@@ -64,11 +76,6 @@ export class AddHeroPageComponent implements OnInit{
 
 
     get enabledSaveButton():boolean {
-        // const hero = this.heroForm.value as Hero;
-        // const heroString = JSON.stringify(hero);
-        // const heroInicialString = JSON.stringify(this.heroInicial);
-        // return heroString === heroInicialString;
-
         return (!this.heroForm.dirty)
     }
 
@@ -77,36 +84,21 @@ export class AddHeroPageComponent implements OnInit{
 
         if( this.heroForm.invalid ) return;
 
-        // if ( this.currentHero.id ){
-        //     this.heroesService.updateHero( this.currentHero )
-        //     .subscribe( hero => {
-        //         this.showSnackbar(`${hero.superhero} updated`)
-        //     });
 
-        //     return;
-        // }
-
-        // this.heroesService.addHero( this.currentHero )
-        // .subscribe( hero => {
-        //     this.router.navigate(['hero/edit', hero.id])
-        //     this.showSnackbar(`${ hero.superhero } created!`);
-        // });
-
-
-        this.service = ( this.currentHero.id )
+        this.service = ( this.currentHero._id )
             ? this.heroesService.updateHero( this.currentHero )
             : this.heroesService.addHero( this.currentHero )
 
             this.service.subscribe( hero => {
-                this.router.navigate(['heroes/edit', hero.id]);
-                this.showSnackbar(`${hero.superhero} ${this.currentHero.id ?'UPDATED' : 'CREATED' }`)
+                this.router.navigate(['heroes/edit', hero._id]);
+                this.showSnackbar(`${hero.superhero} ${this.currentHero._id ?'UPDATED' : 'CREATED' }`)
             });
     }
 
 
 
     onDeleteHero(){
-        if( !this.currentHero.id ) throw Error('Hero id is Required');
+        if( !this.currentHero._id ) throw Error('Hero id is Required');
 
         const dialogRef = this.dialog.open( ConfirmDialogComponent, {
             data: this.heroForm.value
@@ -115,7 +107,7 @@ export class AddHeroPageComponent implements OnInit{
         dialogRef.afterClosed()
         .pipe(
             filter( (result:boolean) => result ),
-            switchMap( () => this.heroesService.deleteHeroById(this.currentHero.id) ),
+            switchMap( () => this.heroesService.deleteHeroById(this.currentHero._id) ),
             filter( (wasDelete:boolean) => wasDelete )
         )
         .subscribe( () => {
