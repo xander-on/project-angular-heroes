@@ -33,6 +33,7 @@ export class SearchPageComponent {
         );
     }
 
+
     onSelectedOption( event:MatAutocompleteSelectedEvent ):void {
         if( !event.option.value ){
             this.selectedHero = undefined;

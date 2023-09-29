@@ -76,4 +76,12 @@ export class HeroesService {
         return this.http.get<Publisher[]>(`${this.baseUrl}/publishers`);
     }
 
+
+    //subir imagen
+    uploadImage( file:File, hero_id:string ):Observable<any> {
+        const formData = new FormData();
+        formData.append('archivo', file);
+
+        return this.http.put(`${this.baseUrl}/uploads/heroes/${hero_id}`, formData);
+    }
 }

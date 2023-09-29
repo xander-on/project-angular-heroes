@@ -49,6 +49,17 @@
             >
                 Go back
             </button>
+
+
+            <button
+                mat-button
+                mat-rised
+                color="primary"
+                [routerLink]="['/heroes/edit', hero._id]"
+            >
+                <mat-icon>edit</mat-icon>
+                Edit
+            </button>
         </mat-card-content>
     </mat-card>
 </div>

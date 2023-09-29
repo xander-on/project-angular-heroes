@@ -16,7 +16,7 @@ export class HeroImagePipe implements PipeTransform {
 
     transform( hero:Hero ):SafeResourceUrl {
 
-        if (!hero._id && !hero.alt_img) {
+        if (!hero.alt_img) {
             return this.sanitizer.bypassSecurityTrustResourceUrl('assets/no-image.png');
         }
 
