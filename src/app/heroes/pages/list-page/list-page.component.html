@@ -9,4 +9,14 @@
     >
         <heroes-hero-card [hero]="hero"></heroes-hero-card>
     </div>
+
+
+    <mat-paginator
+        [length]   ="totalHeroes"
+        [pageSize] ="pageSize"
+        [pageIndex]="currentPage - 1"
+        [pageSizeOptions]="[8, 12, 16, 20]"
+        (page)="onPageChange($event)"
+        class ="col-12"
+    ></mat-paginator>
 </div>

@@ -37,3 +37,9 @@ export interface CreatedBy {
     _id:  string;
     name: string;
 }
+
+
+export interface GetHeroesType {
+    heroes: Hero[];
+    total : number
+}

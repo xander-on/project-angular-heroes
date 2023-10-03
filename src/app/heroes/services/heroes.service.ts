@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, catchError, map, of } from 'rxjs';
-import { Hero, Publisher }         from '../interfaces/hero.interface';
+import { Hero, Publisher, GetHeroesType }  from '../interfaces/hero.interface';
 import { environments } from 'src/environments/environments';
 import { AuthService } from 'src/app/auth/services/auth.service';
 
@@ -14,14 +14,15 @@ export class HeroesService {
     private baseUrl = 'http://localhost:3000/heroes-api/v1';
 
 
+
     constructor(
         private http:HttpClient,
         private authService: AuthService
-    ) { }
+    ) {}
 
 
-    getHeroes():Observable<Hero[]>{
-        return this.http.get<Hero[]>(`${this.baseUrl}/heroes`);
+    getHeroes(limit:number = 12, from:number = 0):Observable<GetHeroesType>{
+        return this.http.get<GetHeroesType>(`${this.baseUrl}/heroes?limit=${limit}&from=${from}`);
     }
 
 

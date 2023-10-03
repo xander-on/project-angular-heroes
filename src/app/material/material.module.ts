@@ -15,6 +15,8 @@ import { MatSelectModule }          from '@angular/material/select';
 import { MatSidenavModule }         from '@angular/material/sidenav';
 import { MatSnackBarModule }        from '@angular/material/snack-bar';
 import { MatToolbarModule }         from '@angular/material/toolbar';
+import { MatPaginatorModule }       from '@angular/material/paginator';
+
 
 @NgModule({
     declarations: [],
@@ -34,6 +36,7 @@ import { MatToolbarModule }         from '@angular/material/toolbar';
         MatSidenavModule,
         MatSnackBarModule,
         MatToolbarModule,
+        MatPaginatorModule
     ]
 })
 export class MaterialModule { }
