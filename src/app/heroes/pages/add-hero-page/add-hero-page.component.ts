@@ -77,10 +77,17 @@ export class AddHeroPageComponent implements OnInit{
 
 
     get disabledActionButtons():boolean {
+
+        //todo publisher validar
+
+        if( this.router.url.includes('add-hero') ){
+            return this.heroForm.invalid || !this.tempImage
+        }
+
         const hero = {...this.heroInicial};
         delete hero.state;
         delete hero.created_by;
-        return this.areObjectsEqual(this.currentHero, hero);
+        return this.areObjectsEqual(this.currentHero, hero) ;
     }
 
 
@@ -100,13 +107,21 @@ export class AddHeroPageComponent implements OnInit{
 
 
         this.service.subscribe( hero => {
-            this.showSnackbar(`${hero.superhero} ${this.currentHero._id ?'UPDATED' : 'CREATED' }`);
+            this.showSnackbar(`
+                ${hero.superhero} ${this.currentHero._id
+                ?'UPDATED' : 'CREATED' }
+            `);
 
             //todo !
-            this.heroesService.uploadImage(this.tempImage!, hero._id)
-            .subscribe( (response) => {
+            if(this.tempImage){
+                this.heroesService.uploadImage(this.tempImage, hero._id)
+                .subscribe( (response) => {
+                    this.router.navigate(['heroes/', hero._id]);
+                });
+            }
+
+            if(!this.tempImage)
                 this.router.navigate(['heroes/', hero._id]);
-            });
         });
 
     }
