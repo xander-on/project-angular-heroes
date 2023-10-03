@@ -1,22 +1,51 @@
 <div class="flex flex-column">
     <span class="text-lg-mb-4">Register</span>
 
-    <mat-form-field>
-        <mat-label>Nombre de Usuario</mat-label>
-        <input type="text" matInput >
-    </mat-form-field>
+    <form
+        class="grid"
+        [formGroup]="userForm"
+        (ngSubmit)="onRegisterUser()"
+    >
+        <mat-form-field class="col-12">
+            <mat-label>Nombre de Usuario</mat-label>
+            <input
+                type="text"
+                matInput
+                formControlName="name"
+                required
+            />
+        </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Correo</mat-label>
-        <input type="text" matInput >
-    </mat-form-field>
+        <mat-form-field class="col-12">
+            <mat-label>Correo</mat-label>
+            <input
+                type="email"
+                matInput
+                formControlName="email"
+                required
+            />
+        </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Contrasena</mat-label>
-        <input type="password" matInput>
-    </mat-form-field>
+        <mat-form-field class="col-12">
+            <mat-label>Contrasena</mat-label>
+            <input
+                type="password"
+                matInput
+                formControlName="password"
+                required
+            />
+        </mat-form-field>
+    </form>
 
-    <button mat-button mat-flat-button color="primary">
+
+
+
+    <button
+        mat-button mat-flat-button
+        color="primary"
+        (click)="onRegisterUser()"
+        [disabled]="disabledActionButton"
+    >
         <mat-icon>save</mat-icon>
         Crear cuenta
     </button>

@@ -1,18 +1,34 @@
 <div class="flex flex-column">
     <span class="text-lg-mb-4">Login</span>
-    <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input type="text" matInput>
-    </mat-form-field>
 
-    <mat-form-field>
-        <mat-label>Contrasena</mat-label>
-        <input type="password" matInput>
-    </mat-form-field>
+    <form
+        class="grid"
+        [formGroup]="loginForm"
+        (ngSubmit)="onLogin()"
+    >
+        <mat-form-field class="col-12">
+            <mat-label>Email</mat-label>
+            <input
+                type="text" matInput required
+                formControlName="email"
+            />
+        </mat-form-field>
+
+        <mat-form-field class="col-12">
+            <mat-label>Contrasena</mat-label>
+            <input
+                type="password" matInput required
+                formControlName="password"
+            />
+        </mat-form-field>
+
+    </form>
 
     <button
-        mat-button mat-flat-button color="primary"
+        mat-button mat-flat-button
+        color="primary"
         (click)="onLogin()"
+        [disabled]="disabledActionButton"
     >
         <mat-icon>save</mat-icon>
         Ingresar

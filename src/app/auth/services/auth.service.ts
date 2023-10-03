@@ -3,7 +3,7 @@ import { User }         from '../interfaces/user.interface';
 import { environments } from 'src/environments/environments';
 import { Observable, catchError, map, of, tap }   from 'rxjs';
 import { HttpClient }   from '@angular/common/http';
-import { SessionData } from '../interfaces/sessionData.interface';
+import { LoginData, SessionData } from '../interfaces/sessionData.interface';
 
 @Injectable({providedIn: 'root'})
 export class AuthService {
@@ -41,8 +41,15 @@ export class AuthService {
 
 
 
-    login( email:string, password:string ):Observable<{ user:User, token:string }> {
-        const body = { email, password };
+    login( loginData:LoginData ):Observable<{ user:User, token:string }> {
+
+        console.log(loginData);
+
+        const body = {
+            email:loginData.email,
+            password: loginData.password
+        };
+
         return this.http.post<{ user:User, token:string }>(
             `${ this.baseUrl }/auth/login`, body
         )
@@ -59,6 +66,10 @@ export class AuthService {
         );
     }
 
+
+    registerUser(user:User):Observable<User>{
+        return this.http.post<User>(`${this.baseUrl}/users`, user );
+    }
 
 
     checkAuthentication():Observable<boolean>{

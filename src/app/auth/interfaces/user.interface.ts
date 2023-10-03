@@ -7,5 +7,12 @@ export interface User {
     role:string;
     alt_img:string;
     state:boolean;
-    user:string;
+    // user:string;
+}
+
+
+export interface UserRegister {
+    name:string;
+    email:string;
+    password:string;
 }
