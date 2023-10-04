@@ -41,24 +41,38 @@
 
             </mat-list>
 
-            <button
-                mat-button
-                color="warn"
-                (click)="goBack()"
-            >
-                Go back
-            </button>
+            <div class="flex">
+                <button
+                    mat-button
+                    color="warn"
+                    (click)="goBack()"
+                >
+                    Go back
+                </button>
+
+                <div class="spacer"></div>
+
+                <ng-container *ngIf="disabledEdit; else infoEdit">
+                    <button
+                        mat-button mat-raised-button
+                        color="primary"
+                        [routerLink]="['/heroes/edit', hero._id]"
+                    >
+                        <mat-icon>edit</mat-icon>
+                        Edit
+                    </button>
+                </ng-container>
+
+                <ng-template #infoEdit>
+                    <button disabled mat-button>
+                        <mat-icon>info</mat-icon>
+                        Solo puedes editar tus héroes
+                    </button>
+                </ng-template>
+
+            </div>
 
 
-            <button
-                mat-button
-                mat-rised
-                color="primary"
-                [routerLink]="['/heroes/edit', hero._id]"
-            >
-                <mat-icon>edit</mat-icon>
-                Edit
-            </button>
         </mat-card-content>
     </mat-card>
 </div>

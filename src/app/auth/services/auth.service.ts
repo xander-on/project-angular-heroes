@@ -34,7 +34,7 @@ export class AuthService {
         this.sessionData = JSON.parse(sessionDataStr);
 
         //todo x
-        console.log('sessionData:',this.sessionData)
+        // console.log('sessionData:',this.sessionData)
 
         return !this.sessionData ? undefined : structuredClone(this.sessionData);
     }

@@ -14,7 +14,6 @@ export class HeroesService {
     private baseUrl = 'http://localhost:3000/heroes-api/v1';
 
 
-
     constructor(
         private http:HttpClient,
         private authService: AuthService
@@ -84,5 +83,12 @@ export class HeroesService {
         formData.append('archivo', file);
 
         return this.http.put(`${this.baseUrl}/uploads/heroes/${hero_id}`, formData);
+    }
+
+
+    isCreatorUser(hero:Hero):boolean{
+        const userIdCreatorHero = hero?.created_by._id;
+        const userIdSession     = this.authService.currentSessionData?.userId
+        return userIdCreatorHero === userIdSession;
     }
 }

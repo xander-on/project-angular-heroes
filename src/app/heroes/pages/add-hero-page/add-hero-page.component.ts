@@ -63,6 +63,9 @@ export class AddHeroPageComponent implements OnInit{
             hero => {
                 if( !hero ) return this.router.navigateByUrl('/');
 
+                const isCreator = this.heroesService.isCreatorUser(hero);
+                if( !isCreator ) return this.router.navigateByUrl(`/heroes/${hero._id}`);
+
                 this.heroInicial = hero;
                 this.heroForm.reset( hero );
                 return;
@@ -154,15 +157,27 @@ export class AddHeroPageComponent implements OnInit{
     }
 
 
-    onFileSelected(event:any):void {
-        const selectedFile = event.target.files[0];
-        if(selectedFile) {
-            this.tempImage    = selectedFile;
-            this.tempImageUrl = URL.createObjectURL(selectedFile);
-            this.currentHero.alt_img = this.tempImageUrl;
 
-            // console.log(this.tempImageUrl);
-        }
+    isValidImageType(fileType:string):boolean {
+        return ['image/jpg', 'image/jpeg', 'image/png'].includes(fileType.toLowerCase());
+    }
+
+
+    onFileSelected(event:any):void {
+
+        const selectedFile = event.target.files[0];
+        console.log(selectedFile.type)
+
+        if(! selectedFile || !this.isValidImageType(selectedFile.type) ) {
+            this.showSnackbar('El archivo no es una imagen');
+            return
+        };
+
+        this.tempImage    = selectedFile;
+        this.tempImageUrl = URL.createObjectURL(selectedFile);
+        this.currentHero.alt_img = this.tempImageUrl;
+        // console.log(this.tempImageUrl);
+
     }
 
 
