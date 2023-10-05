@@ -40,6 +40,6 @@ export interface CreatedBy {
 
 
 export interface GetHeroesType {
-    heroes: Hero[];
+    results: Hero[];
     total : number
 }

@@ -15,8 +15,8 @@ const checkAuthStatus = ():boolean | Observable<boolean> => {
 
     return authService.checkAuthentication()
     .pipe(
-        tap( isAuthenticated => console.log('Authenticated:', isAuthenticated)),
         tap( isAuthenticated => {
+            // console.log('Authenticated:', isAuthenticated);
             if( isAuthenticated ) router.navigate(['./'])
         }),
         map( isAuthenticated => !isAuthenticated ),

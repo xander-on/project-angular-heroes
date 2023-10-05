@@ -8,11 +8,7 @@ import { AuthService } from 'src/app/auth/services/auth.service';
 @Injectable({providedIn: 'root'})
 export class HeroesService {
 
-    // private baseUrl = environments.baseUrl;
-
-    //todo remover
-    private baseUrl = 'http://localhost:3000/heroes-api/v1';
-
+    private baseUrl = environments.baseUrl;
 
     constructor(
         private http:HttpClient,
@@ -20,8 +16,8 @@ export class HeroesService {
     ) {}
 
 
-    getHeroes(limit:number = 12, from:number = 0):Observable<GetHeroesType>{
-        return this.http.get<GetHeroesType>(`${this.baseUrl}/heroes?limit=${limit}&from=${from}`);
+    getHeroes(limit:number = 12, offset:number = 0):Observable<GetHeroesType>{
+        return this.http.get<GetHeroesType>(`${this.baseUrl}/heroes?limit=${limit}&offset=${offset}`);
     }
 
 

@@ -1,3 +1,3 @@
 export const environments = {
-    baseUrl: 'https://apis.alexanderweb.cloud/heroes/v1/users'
+    baseUrl: 'https://apis.alexanderweb.cloud/api-heroes/v1'
 }

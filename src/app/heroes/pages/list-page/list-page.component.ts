@@ -24,13 +24,13 @@ export class ListPageComponent implements OnInit{
     ngOnInit():void {
         this.heroesService.getHeroes().subscribe(
             response => {
-                this.heroes      = response.heroes,
+                this.heroes      = response.results,
                 this.totalHeroes = response.total
             }
         );
     }
 
-    onPageChange(event:PageEvent): void {
+    onPageChange(event:PageEvent):void {
         this.currentPage = event.pageIndex + 1;
         this.pageSize    = event.pageSize;
         this.from        = (this.currentPage-1) * this.pageSize;
@@ -38,7 +38,7 @@ export class ListPageComponent implements OnInit{
         this.heroesService.getHeroes(this.pageSize, this.from)
         .subscribe(
             response => {
-                this.heroes      = response.heroes,
+                this.heroes      = response.results,
                 this.totalHeroes = response.total
             }
         );

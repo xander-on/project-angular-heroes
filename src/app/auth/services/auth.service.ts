@@ -8,8 +8,8 @@ import { LoginData, SessionData } from '../interfaces/sessionData.interface';
 @Injectable({providedIn: 'root'})
 export class AuthService {
 
-    // private baseUrl = environments.baseUrl;
-    private baseUrl = 'http://localhost:3000/heroes-api/v1';
+    private baseUrl = environments.baseUrl;
+    // private baseUrl = 'http://localhost:3000/heroes-api/v1';
 
     private user?:User;
     private sessionData?:SessionData | undefined;
