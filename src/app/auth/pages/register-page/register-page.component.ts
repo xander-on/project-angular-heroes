@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { User } from '../../interfaces/user.interface';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'auth-register-page',
@@ -20,10 +21,12 @@ export class RegisterPageComponent implements OnInit{
         password : new FormControl<string>(''),
     });
 
+    public errors:[] = [];
 
     constructor(
         private authService:AuthService,
         private snackbar:MatSnackBar,
+        private router:Router,
     ){}
 
 
@@ -54,13 +57,18 @@ export class RegisterPageComponent implements OnInit{
 
         if(this.userForm.valid){
             this.authService.registerUser(this.userToRegister)
-            .subscribe( user => {
-                //mostrar mensaje de creado
-                // redireccionar a login
+            .subscribe(
+                user => {
+                    // redireccionar a login
 
-                this.showSnackbar(`${user.name} CREATED`);
-                console.log(user);
-            });
+                    this.showSnackbar(`${user.name} CREATED`);
+                    setTimeout(() => {
+                        this.router.navigate(['auth/login']);
+                    }, 2000);
+                },
+
+                (errors:any) => { this.errors = errors }
+            );
         }
     }
 }

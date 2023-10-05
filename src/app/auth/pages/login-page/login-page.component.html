@@ -37,4 +37,9 @@
     <div class="flex justify-content-end mt-5">
         <a routerLink="/auth/new-account">¿No tienes una cuenta?</a>
     </div>
+
+
+    <div *ngFor="let error of errors" class="">
+        <button mat-button color="warn">{{ error }}</button>
+    </div>
 </div>

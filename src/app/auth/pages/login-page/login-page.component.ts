@@ -3,6 +3,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router }      from '@angular/router';
 import { FormControl, FormGroup } from '@angular/forms';
 import { LoginData } from '../../interfaces/sessionData.interface';
+import { catchError } from 'rxjs';
 
 @Component({
   selector: 'auth-login-page',
@@ -18,6 +19,7 @@ export class LoginPageComponent {
     });
 
     private loginData?:LoginData;
+    public errors:[] = [];
 
     constructor(
         private authService:AuthService,
@@ -40,7 +42,12 @@ export class LoginPageComponent {
         if(this.loginData){
             this.authService.login(this.loginData)
             .subscribe(
-                response => { this.router.navigate(['/']) }
+                response => {
+                    console.log(response);
+                    this.router.navigate(['/'])
+                },
+
+                (errors:any) => { this.errors = errors }
             );
         }
     }

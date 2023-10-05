@@ -1,7 +1,7 @@
 import { Injectable }   from '@angular/core';
 import { User }         from '../interfaces/user.interface';
 import { environments } from 'src/environments/environments';
-import { Observable, catchError, map, of, tap }   from 'rxjs';
+import { Observable, catchError, map, of, tap, throwError }   from 'rxjs';
 import { HttpClient }   from '@angular/common/http';
 import { LoginData, SessionData } from '../interfaces/sessionData.interface';
 
@@ -43,8 +43,6 @@ export class AuthService {
 
     login( loginData:LoginData ):Observable<{ user:User, token:string }> {
 
-        console.log(loginData);
-
         const body = {
             email:loginData.email,
             password: loginData.password
@@ -52,8 +50,7 @@ export class AuthService {
 
         return this.http.post<{ user:User, token:string }>(
             `${ this.baseUrl }/auth/login`, body
-        )
-        .pipe(
+        ).pipe(
             tap(
                 response =>{
                     const {user, token} = response;
@@ -63,12 +60,25 @@ export class AuthService {
                     localStorage.setItem(this.nameItemLS, JSON.stringify(this.sessionData));
                 }
             ),
+            catchError(
+                errorResponse => {
+                    return throwError( () => errorResponse.error );
+                }
+            )
         );
     }
 
 
     registerUser(user:User):Observable<User>{
-        return this.http.post<User>(`${this.baseUrl}/users`, user );
+        return this.http.post<User>(
+            `${this.baseUrl}/users`, user
+        ).pipe(
+            catchError(
+                errorResponse => {
+                    return throwError( () => errorResponse.error );
+                }
+            )
+        );
     }
 
 
