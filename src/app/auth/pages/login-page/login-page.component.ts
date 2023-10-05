@@ -20,6 +20,7 @@ export class LoginPageComponent {
 
     private loginData?:LoginData;
     public errors:[] = [];
+    public isGuest:boolean = false;
 
     constructor(
         private authService:AuthService,
@@ -37,18 +38,27 @@ export class LoginPageComponent {
 
 
     onLogin():void {
-        this.loginData = this.currentLogin;
+
+        const guestData = { email:'invitado@test.com', password:'123456'};
+
+        this.loginData = this.isGuest ? guestData : this.currentLogin;
 
         if(this.loginData){
             this.authService.login(this.loginData)
             .subscribe(
                 response => {
-                    console.log(response);
+                    // console.log(response);
                     this.router.navigate(['/'])
                 },
 
                 (errors:any) => { this.errors = errors }
             );
         }
+    }
+
+
+    loginGuest():void{
+        this.isGuest = true;
+        this.onLogin();
     }
 }

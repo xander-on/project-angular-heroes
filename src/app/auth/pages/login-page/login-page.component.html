@@ -34,9 +34,25 @@
         Ingresar
     </button>
 
+        <small  class="mt-5">
+            También puedes :
+            <button
+                mat-button
+                color="primary"
+                (click)="loginGuest()"
+            >
+                Ingresar como invitado
+                <mat-icon>perm_identity</mat-icon>
+            </button>
+        </small>
+
+
+
+
     <div class="flex justify-content-end mt-5">
         <a routerLink="/auth/new-account">¿No tienes una cuenta?</a>
     </div>
+
 
 
     <div *ngFor="let error of errors" class="">

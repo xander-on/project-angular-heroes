@@ -166,7 +166,6 @@ export class AddHeroPageComponent implements OnInit{
     onFileSelected(event:any):void {
 
         const selectedFile = event.target.files[0];
-        console.log(selectedFile.type)
 
         if(! selectedFile || !this.isValidImageType(selectedFile.type) ) {
             this.showSnackbar('El archivo no es una imagen');

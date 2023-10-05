@@ -26,7 +26,6 @@ export class HeroPageComponent implements OnInit{
             switchMap(({ id }) => this.heroesService.getHeroById( id )),
         )
         .subscribe( hero =>{
-            console.log(hero)
             return hero
                 ? this.hero = hero
                 : this.router.navigate(['/heroes/list']);
