@@ -130,7 +130,6 @@ export class AddHeroPageComponent implements OnInit{
     }
 
 
-
     onDeleteHero(){
         if( !this.currentHero._id ) throw Error('Hero id is Required');
 
@@ -155,7 +154,6 @@ export class AddHeroPageComponent implements OnInit{
             duration:2500
         });
     }
-
 
 
     isValidImageType(fileType:string):boolean {
